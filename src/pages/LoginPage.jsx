@@ -6,6 +6,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { TOKEN } from './../constants/index';
 
+import PropTypes from "prop-types";
+
 const LoginPage = ({ setIsLogin }) => {
   const navigate = useNavigate();
 
@@ -58,5 +60,7 @@ const LoginPage = ({ setIsLogin }) => {
     </div>
   )
 }
-
+LoginPage.propTypes ={
+  setIsLogin:PropTypes.func,
+}
 export default LoginPage
