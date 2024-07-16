@@ -8,3 +8,9 @@ html{
 *,*::before,*::after{
   box-sizing: inherit;
 }
+.product_desc{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

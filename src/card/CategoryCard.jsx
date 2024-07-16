@@ -1,6 +1,7 @@
 import { Button, Card } from "react-bootstrap"
 
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const CategoryCard = ({ image, name, id, editCategory, deleteCategory }) => {
   return (
@@ -9,7 +10,7 @@ const CategoryCard = ({ image, name, id, editCategory, deleteCategory }) => {
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <div className="d-flex flex-wrap justify-content-between align-items-center">
-          <Button variant="primary" >More... </Button>
+          <Link to={`category/${id}/products`} className="btn btn-primary" >More... </Link>
           <Button variant="warning" onClick={() => editCategory(id)}>Edit</Button>
           <Button variant="danger" onClick={() => deleteCategory(id)}>Delete</Button>
         </div>

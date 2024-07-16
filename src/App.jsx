@@ -12,9 +12,9 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="" element={isLogin ?  <CategoryPage/> : (<Navigate to={`/login`}/>)}></Route>
+      <Route path="" element={isLogin ?  <CategoryPage  /> : (<Navigate to={`/login`}/>)}></Route>
       <Route path="login" element={<LoginPage setIsLogin={setIsLogin}/>}/>
-      <Route path="product" element={<ProductPage/>}></Route>
+      <Route path="category/:categoryId/products" element={<ProductPage />}></Route>
     </Routes>
     </BrowserRouter>
   )

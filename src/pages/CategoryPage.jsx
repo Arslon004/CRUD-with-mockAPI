@@ -30,7 +30,7 @@ const CategoryPage = () => {
 
         const params = {
           name: search,
-          page: activePage,
+          page: activePage + 1,
           limit: LIMIT,
         };
         const { data } = await request.get('category', { params });
@@ -49,7 +49,7 @@ const CategoryPage = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    setActivePage(1);
+    setActivePage(0);
   };
 
   const handleClose = () => setShow(false);
@@ -106,7 +106,7 @@ const CategoryPage = () => {
   };
 
   const handlePageClick = ({ selected }) => {
-    setActivePage(selected + 1);
+    setActivePage(selected);
   }
   let pages = Math.ceil(total / LIMIT);
 
@@ -129,7 +129,7 @@ const CategoryPage = () => {
             {categories.length !== 0 ? (
               categories.map((category) => (
                 <Col className="mb-4" key={category.id}>
-                  <CategoryCard editCategory={editCategory} deleteCategory={deleteCategory} {...category} />
+                  <CategoryCard editCategory={editCategory} deleteCategory={deleteCategory}  {...category} />
                 </Col>
               ))
             ) : (
