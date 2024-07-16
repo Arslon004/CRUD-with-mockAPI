@@ -6,6 +6,8 @@ import request from "../server";
 import Loading from "../components/loading/Loading";
 import { useForm } from "react-hook-form";
 import categorySchema from './../schemas/CategorySchema';
+import ReactPaginate from "react-paginate";
+import { LIMIT } from "../constants";
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -13,6 +15,8 @@ const CategoryPage = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(null);
+  const [total, setTotal] = useState(0);
+  const [activePage, setActivePage] = useState(0);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: yupResolver(categorySchema),
@@ -24,9 +28,15 @@ const CategoryPage = () => {
         setLoading(true);
         setError(null);
 
-        const params = search ? { name: search } : {};
+        const params = {
+          name: search,
+          page: activePage,
+          limit: LIMIT,
+        };
         const { data } = await request.get('category', { params });
+        const { data: totalData } = await request.get('category', { params: { name: search } });
         setCategories(data);
+        setTotal(totalData.length);
       } catch (err) {
         setError(err);
       } finally {
@@ -35,10 +45,11 @@ const CategoryPage = () => {
     };
 
     getCategory();
-  }, [search]);
+  }, [search, activePage]);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+    setActivePage(1);
   };
 
   const handleClose = () => setShow(false);
@@ -93,6 +104,11 @@ const CategoryPage = () => {
       setError(err);
     }
   };
+
+  const handlePageClick = ({ selected }) => {
+    setActivePage(selected + 1);
+  }
+  let pages = Math.ceil(total / LIMIT);
 
   return (
     <div className="container">
@@ -157,6 +173,36 @@ const CategoryPage = () => {
           </Form>
         </Modal>
       </Fragment>
+      {pages !== 1
+        ?
+        (
+          <ReactPaginate
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={pages}
+            previousLabel="<previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
+        )
+        :
+        (
+          null
+        )
+      }
+
     </div>
   );
 };
