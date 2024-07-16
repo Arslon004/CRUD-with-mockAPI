@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const CategoryCard = ({image,name,id}) => {
   return (
     <Card >
-      <Card.Img variant="top" src={image} />
+      <Card.Img height={200} className="object-fit-cover" variant="top" src={image} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Button variant="primary">Go somewhere</Button>
